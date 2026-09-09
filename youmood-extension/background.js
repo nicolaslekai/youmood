@@ -48,7 +48,7 @@ async function viaApi(items, s) {
       "anthropic-dangerous-direct-browser-access": "true"
     },
     body: JSON.stringify({
-      model: s.model || "claude-opus-5",
+      model: s.model || "claude-haiku-4-5",
       max_tokens: 4000,
       system: SYSTEM,
       output_config: { effort: "low" },
@@ -80,7 +80,8 @@ async function classify(items) {
   if (!todo.length || s.ai === "off") return { verdicts };
   let arr;
   try {
-    arr = s.ai === "api" ? await viaApi(todo, s) : await viaBridge(todo, s);
+    if (s.ai === "local") throw new Error("on-device model only in the youmood browser");
+    arr = (s.ai === "api" || s.ai === "key") ? await viaApi(todo, s) : await viaBridge(todo, s);
   } catch (e) {
     await chrome.storage.local.set({ aiStatus: { ok: false, msg: String(e.message || e), t: Date.now() } });
     return { verdicts, error: String(e.message || e) };

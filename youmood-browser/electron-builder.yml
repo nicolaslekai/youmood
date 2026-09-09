@@ -2,7 +2,14 @@ appId: com.nicolaslekai.youmood
 productName: youmood
 directories:
   output: dist
+asarUnpack:
+  - node_modules/onnxruntime-node/**
+  - node_modules/sharp/**
+  - node_modules/@img/**
 files:
+  - "!node_modules/onnxruntime-node/bin/napi-v6/{linux,win32}/**"
+  - "!node_modules/onnxruntime-node/bin/napi-v6/darwin/x64/**"
+  - "!node_modules/@img/sharp-{linux,win32,linuxmusl}*/**"
   - main.js
   - store.js
   - ai.js

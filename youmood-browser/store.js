@@ -3,7 +3,7 @@ const { app } = require("electron");
 const fs = require("fs");
 const path = require("path");
 
-const DEF = { enabled: true, mode: "blur", cats: { trump: true }, custom: [], ai: "off", apiKey: "", model: "claude-opus-5", cliModel: "" };
+const DEF = { enabled: true, mode: "blur", cats: { trump: true }, custom: [], ai: "local", provider: "nvidia", baseUrl: "", apiKey: "", model: "", moreKeys: "", cliModel: "" };
 let settings = null, cache = null, status = { ok: null, msg: "", t: 0 };
 const file = (n) => path.join(app.getPath("userData"), n);
 function readJson(n, fb) { try { return JSON.parse(fs.readFileSync(file(n), "utf8")); } catch { return fb; } }

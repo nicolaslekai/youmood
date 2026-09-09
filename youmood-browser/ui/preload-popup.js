@@ -18,4 +18,5 @@ window.chrome = {
 };
 ipcRenderer.on("ym:count", (_e, n) => { const el = document.querySelector("#count"); if (el) el.textContent = n; });
 ipcRenderer.on("ym:refresh", () => { ipcRenderer.invoke("ym:count-get").then((n) => { const el = document.querySelector("#count"); if (el) el.textContent = n; }); });
+ipcRenderer.on("ym:settings-changed", () => {});
 window.addEventListener("keydown", (e) => { if (e.key === "Escape") window.close(); });

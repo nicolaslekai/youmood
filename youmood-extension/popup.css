@@ -29,3 +29,7 @@ input:checked+.sw{background:var(--mood-ghost);border-color:var(--mood-dim)}inpu
 .btn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:5px 10px;font:500 11px var(--ui);cursor:pointer;transition:border-color .12s,color .12s,transform .12s}
 .btn:hover{border-color:var(--mood-dim);color:var(--mood)}.btn:active{transform:translateY(1px)}
 .status{font-family:var(--mono);font-size:10.5px;color:var(--ink-dim)}.status.ok{color:var(--ok)}.status.bad{color:var(--bad)}
+
+textarea.field{resize:none;line-height:1.35;font-size:10.5px}
+select.field{appearance:none;-webkit-appearance:none}
+#apiRow{display:flex;flex-direction:column;gap:6px}

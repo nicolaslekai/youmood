@@ -10,28 +10,36 @@
 <div class="lbl">Mute</div>
 <div class="list" id="cats"></div>
 
-<div class="lbl">Also mute words</div>
+<div class="lbl">Also mute (words or intentions)</div>
 <input class="field" id="custom" placeholder="e.g. mukbang, crypto, elon">
 
-<div class="lbl">Muted videos are</div>
+<div class="lbl">Muted things are</div>
 <div class="seg" id="mode">
   <button data-v="blur">blurred</button><button data-v="hide">hidden</button>
 </div>
 
-<div class="lbl">AI check for unclear titles</div>
+<div class="lbl">AI for unclear titles</div>
 <div class="seg" id="ai">
-  <button data-v="off">off</button><button data-v="bridge">this mac</button><button data-v="api">api key</button>
+  <button data-v="off">off</button><button data-v="local">on device</button><button data-v="cli">claude</button><button data-v="key">api key</button>
 </div>
 <div id="aiBox">
+  <div id="localRow" hidden class="hint">free and private: a small language model runs inside youmood. First use downloads it once (about 110 MB).</div>
+  <div id="bridgeRow" hidden class="hint">asks the <span class="mono">claude</span> CLI on this mac, on your Claude subscription</div>
   <div id="apiRow" hidden>
-    <input class="field mono" id="apiKey" placeholder="sk-ant-…" type="password">
-    <select class="field mono" id="model">
-      <option value="claude-opus-5">claude-opus-5</option>
-      <option value="claude-sonnet-5">claude-sonnet-5</option>
-      <option value="claude-haiku-4-5">claude-haiku-4-5</option>
+    <select class="field mono" id="provider">
+      <option value="nvidia">NVIDIA NIM (free tier)</option>
+      <option value="groq">Groq (free tier)</option>
+      <option value="openrouter">OpenRouter (free models)</option>
+      <option value="gemini">Google Gemini (free tier)</option>
+      <option value="ollama">Ollama on this mac</option>
+      <option value="anthropic">Anthropic</option>
+      <option value="custom">custom OpenAI-compatible</option>
     </select>
+    <input class="field mono" id="baseUrl" placeholder="https://…/v1">
+    <input class="field mono" id="apiKey" placeholder="api key" type="password">
+    <input class="field mono" id="model" placeholder="model">
+    <textarea class="field mono" id="moreKeys" rows="2" placeholder="more keys to rotate on rate limits, one per line: provider key model"></textarea>
   </div>
-  <div id="bridgeRow" hidden class="hint">runs <span class="mono">youmood-bridge</span> on 127.0.0.1:7331 using your Claude subscription</div>
   <div class="row"><button class="btn ghost small" id="test">test</button><span id="aiStatus" class="status"></span></div>
 </div>
 <script src="rules.js"></script><script src="popup.js"></script>

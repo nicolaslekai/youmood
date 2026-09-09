@@ -7,7 +7,7 @@ const ai = require("./ai");
 
 const UI_H = 84;               // tab strip + toolbar
 const HOME = "youmood://home";
-const isYouTube = (u) => /^https?:\/\/(www\.|m\.)?youtube\.com\//.test(u || "");
+const isWeb = (u) => /^https?:\/\//.test(u || "");
 
 let win = null, popup = null;
 const tabs = [];               // { id, view, counts }
@@ -19,7 +19,7 @@ function snapshot(t) {
   const wc = t.view.webContents;
   const url = wc.getURL();
   return { id: t.id, url: url.startsWith("file:") ? HOME : url, title: wc.getTitle() || "new tab", loading: wc.isLoading(),
-    canBack: wc.navigationHistory.canGoBack(), canFwd: wc.navigationHistory.canGoForward(), muted: t.muted || 0, yt: isYouTube(url) };
+    canBack: wc.navigationHistory.canGoBack(), canFwd: wc.navigationHistory.canGoForward(), muted: t.muted || 0, yt: isWeb(url) };
 }
 function broadcast() { ui("tabs", { tabs: tabs.map(snapshot), active }); }
 
@@ -115,11 +115,12 @@ ipcMain.handle("ui:state", () => ({ tabs: tabs.map(snapshot), active }));
 ipcMain.handle("ym:settings-get", () => store.getSettings());
 ipcMain.handle("ym:settings-set", (_e, patch) => {
   store.setSettings(patch);
+  if (store.getSettings().ai === "local") ai.loadLocal().catch(() => {});
   for (const t of tabs) t.view.webContents.send("ym:settings-changed");
   broadcast();
 });
-ipcMain.handle("ym:classify", (_e, items) => ai.classify(items));
-ipcMain.handle("ym:test", () => ai.classify([{ id: "test-" + Date.now(), text: "Trump rally speech in Ohio · Fox News" }]));
+ipcMain.handle("ym:classify", (_e, items, custom) => ai.classify(items, custom));
+ipcMain.handle("ym:test", () => ai.classify([{ id: "test-" + Date.now(), text: "Trump rally speech in Ohio · Fox News" }], store.getSettings().custom || []));
 ipcMain.handle("ym:status", () => store.getStatus());
 ipcMain.handle("ym:count-get", () => (tabById(active)?.muted) || 0);
 ipcMain.on("ym:count", (e, n) => { const t = tabs.find((x) => x.view.webContents.id === e.sender.id); if (t) { t.muted = n; broadcast(); if (popup && popup.isVisible()) popup.webContents.send("ym:count", n); } });

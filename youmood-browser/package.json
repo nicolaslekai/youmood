@@ -1,7 +1,7 @@
 {
   "name": "youmood-browser",
   "productName": "youmood",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "youmood, a browser that matches your intentions.",
   "main": "main.js",
   "private": true,
@@ -13,5 +13,8 @@
   "devDependencies": {
     "electron": "^38.0.0",
     "electron-builder": "^26.0.0"
+  },
+  "dependencies": {
+    "@huggingface/transformers": "^4.2.0"
   }
 }

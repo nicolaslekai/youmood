@@ -1,8 +1,8 @@
 # youmood
 
 **A browser that matches your intentions.** youmood is its own macOS browser (Chromium via
-Electron) that mutes what you do not want to see on YouTube: Trump, politics, violence, news,
-sport, ads, big brands, plus your own words. Muted cards are blurred with a small "muted · show"
+Electron) that mutes what you do not want to see on YouTube, TikTok, news pages and image feeds:
+Trump, politics, violence, news, sport, ads, big brands, plus your own words or intentions. Muted cards are blurred with a small "muted · show"
 pill that never names what it hid, or removed entirely.
 
 Landing page: https://nicolaslekai.github.io/youmood/ · Download: GitHub Releases (arm64 DMG)
@@ -32,10 +32,24 @@ postinstall), run `node node_modules/electron/install.js` or unzip the cached
 `~/Library/Caches/electron/*/electron-v*-darwin-arm64.zip` into that dist folder.
 
 ## How classification works
-`rules.js` (instant, offline) labels every card first. If nothing matched and AI is on, unclear
-cards are batched (up to 40) to the chosen backend, verdicts are cached per video id for 7 days.
-Backends: `claude` CLI on this mac (your subscription) or an Anthropic API key. Rules and AI both
-label all seven categories; the popup toggles decide which labels mute.
+`content.js` has three site adapters: YouTube, TikTok and a generic one for everything else
+(articles, headlines with links, figures and images with alt text). `rules.js` (instant, offline)
+labels every card first. If nothing matched and AI is on, unclear cards are batched (up to 40) to the
+chosen backend in `ai.js`, verdicts are cached per card id for 7 days:
+
+- **on device (default, free, scalable)** — `Xenova/multilingual-e5-small` via transformers.js +
+  onnxruntime in the main process. Titles are embedded and compared with category prototypes and
+  with the user's own intentions ("crypto", "mukbang" …), so custom terms match by meaning.
+  Thresholds and a margin over neutral prototypes live at the top of the `LOCAL` block. The model
+  (about 110 MB) downloads once into `~/Library/Application Support/youmood/models`.
+- **claude** — spawns the `claude` CLI on this mac (your subscription).
+- **api key** — any OpenAI-compatible endpoint (NVIDIA NIM, Groq, OpenRouter, Gemini, Ollama,
+  custom) or Anthropic. Extra keys in "more keys" rotate on 429/5xx so no single free tier is
+  hammered. Shipping one shared key inside the app was rejected on purpose: it would not scale and
+  could be extracted.
+
+Rules and AI both label all seven categories; the popup toggles decide which labels mute. The pill
+on a muted card never names the category or word.
 
 ## Debugging the browser
 `npx electron . --remote-debugging-port=9444` exposes every tab to the Chrome DevTools protocol;

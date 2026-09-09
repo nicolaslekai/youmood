@@ -3,7 +3,7 @@
 // On YouTube it provides a chrome.* shim and runs the exact filter code the extension ships.
 const { ipcRenderer, contextBridge } = require("electron");
 
-const onYouTube = /(^|\.)youtube\.com$/.test(location.hostname);
+const onYouTube = /^https?:$/.test(location.protocol); // runs on every site; adapters inside content.js decide how
 const log = (...a) => ipcRenderer.send("ym:log", a.map(String).join(" "));
 
 if (onYouTube) {
@@ -19,7 +19,7 @@ if (onYouTube) {
     },
     runtime: {
       sendMessage: (msg) => {
-        if (msg.type === "classify") return ipcRenderer.invoke("ym:classify", msg.items);
+        if (msg.type === "classify") return ipcRenderer.invoke("ym:classify", msg.items, msg.custom || []);
         if (msg.type === "count") { ipcRenderer.send("ym:count", msg.n); return Promise.resolve(); }
         return Promise.resolve();
       },
