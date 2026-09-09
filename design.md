@@ -66,4 +66,6 @@ Wordmark: `youmood` klein geschrieben, Space Grotesk 700, das zweite `o` in `--m
 ## Im Feed (Content-Script auf YouTube)
 
 Gemutete Karten: blur 14px + Sättigung 0, darüber eine Pill in `--panel` mit
-1px `--line`, Text `--ink2`, Kategorie in `--mood`. Kein Rot. Ein „zeigen"-Link.
+1px `--line`, Text `--ink2` „muted", daneben „show" in `--mood`. Kein Rot.
+Die Pill nennt NIE die Kategorie oder das Wort: das Wort zu sehen ist genau das,
+was der Nutzer nicht will (Entschieden 09.09.2026).

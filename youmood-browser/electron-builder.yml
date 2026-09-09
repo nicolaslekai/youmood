@@ -1,0 +1,23 @@
+appId: com.nicolaslekai.youmood
+productName: youmood
+directories:
+  output: dist
+files:
+  - main.js
+  - store.js
+  - ai.js
+  - inject/**
+  - ui/**
+  - ext/**
+  - package.json
+mac:
+  category: public.app-category.productivity
+  icon: build/icon.png
+  target:
+    - target: dmg
+      arch: [arm64]
+    - target: zip
+      arch: [arm64]
+  identity: null
+dmg:
+  title: youmood

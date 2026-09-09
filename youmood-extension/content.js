@@ -53,9 +53,12 @@
       el.classList.add("ym-muted");
       const tag = document.createElement("div");
       tag.className = "ym-tag";
-      tag.innerHTML = `<span>muted</span><b></b><span class="ym-show">show</span>`;
-      tag.querySelector("b").textContent = reason;
-      tag.querySelector(".ym-show").addEventListener("click", (e) => { e.preventDefault(); e.stopPropagation(); unmute(el); el.dataset.ymForce = "1"; });
+      // DOM calls, not innerHTML: YouTube enforces Trusted Types and innerHTML throws
+      // The pill never names the category: seeing the word is exactly what the user wants gone.
+      const s1 = document.createElement("span"); s1.textContent = "muted";
+      const show = document.createElement("span"); show.className = "ym-show"; show.textContent = "show";
+      show.addEventListener("click", (e) => { e.preventDefault(); e.stopPropagation(); unmute(el); el.dataset.ymForce = "1"; });
+      tag.append(s1, show);
       el.prepend(tag);
     }
     mutedCount++; reportCount();

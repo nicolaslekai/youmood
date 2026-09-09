@@ -1,0 +1,69 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>youmood</title>
+<style>
+:root{--bg:#1a1d22;--panel:#21252b;--card:#262b33;--field:#2c323b;--line:#333a44;--ink:#e8eaed;--ink2:#aeb5bf;--ink-dim:#7c8490;
+--mood:#e58fb0;--mood-d:#d47a9c;--mood-dim:rgba(229,143,176,.45);--mood-ghost:rgba(229,143,176,.10);--ok:#46a578;
+--disp:"Space Grotesk",Inter,-apple-system,sans-serif;--ui:Inter,-apple-system,system-ui,sans-serif;--mono:"JetBrains Mono","SF Mono",Menlo,monospace}
+*{box-sizing:border-box;user-select:none}
+html,body{margin:0;height:84px;overflow:hidden;background:var(--bg);color:var(--ink);font:12.5px/1 var(--ui)}
+#strip{height:38px;display:flex;align-items:flex-end;padding:0 10px 0 82px;gap:4px;-webkit-app-region:drag;background:var(--bg)}
+.tab{-webkit-app-region:no-drag;display:flex;align-items:center;gap:8px;height:30px;max-width:200px;min-width:0;padding:0 8px 0 12px;border-radius:8px 8px 0 0;background:transparent;color:var(--ink-dim);border:1px solid transparent;border-bottom:0;cursor:default;transition:background .12s,color .12s}
+.tab:hover{background:var(--panel);color:var(--ink2)}
+.tab.on{background:var(--panel);color:var(--ink);border-color:var(--line)}
+.tab .t{flex:1;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-weight:500}
+.tab .n{font:600 10px var(--mono);color:var(--mood);background:var(--mood-ghost);border:1px solid var(--mood-dim);border-radius:999px;padding:2px 6px}
+.tab .x{width:18px;height:18px;border-radius:6px;display:grid;place-items:center;color:var(--ink-dim);font-size:13px;opacity:0;transition:opacity .12s,background .12s,color .12s}
+.tab:hover .x,.tab.on .x{opacity:1}.tab .x:hover{background:var(--card);color:var(--ink)}
+#add{-webkit-app-region:no-drag;width:28px;height:28px;margin-bottom:1px;border-radius:8px;display:grid;place-items:center;color:var(--ink-dim);font-size:18px;cursor:default;transition:background .12s,color .12s}
+#add:hover{background:var(--panel);color:var(--ink)}
+#bar{height:46px;display:flex;align-items:center;gap:6px;padding:0 10px;background:var(--panel);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.ib{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;color:var(--ink2);cursor:default;border:1px solid transparent;transition:background .12s,color .12s,border-color .12s;font-size:15px}
+.ib:hover{background:var(--card);color:var(--ink)}.ib[disabled]{opacity:.35;pointer-events:none}
+#url{flex:1;height:32px;background:var(--field);border:1px solid var(--line);border-radius:8px;color:var(--ink);padding:0 12px;font:13px var(--ui);outline:none;transition:border-color .12s,box-shadow .12s;user-select:text}
+#url:focus{border-color:var(--mood-dim);box-shadow:0 0 0 3px rgba(229,143,176,.25)}#url::placeholder{color:var(--ink-dim)}
+#ym{display:flex;align-items:center;gap:7px;height:32px;padding:0 10px 0 9px;border-radius:999px;border:1px solid var(--line);background:var(--card);cursor:default;transition:border-color .12s,background .12s}
+#ym:hover{border-color:var(--mood-dim)}#ym.live{border-color:var(--mood-dim);background:var(--mood-ghost)}
+#ym .w{font:700 14px var(--disp);letter-spacing:-.3px;color:var(--ink)}#ym .w span{color:var(--mood)}
+#ym .n{font:600 11px var(--mono);color:var(--mood);min-width:10px;text-align:center}
+#ym .dot{width:6px;height:6px;border-radius:50%;background:var(--ink-dim)}#ym.live .dot{background:var(--mood)}
+#prog{position:absolute;left:0;top:83px;height:1px;width:0;background:var(--mood);transition:width .3s,opacity .3s;opacity:0}
+</style></head>
+<body>
+<div id="strip"><div id="tabs" style="display:contents"></div><div id="add" title="New tab ⌘T">+</div></div>
+<div id="bar">
+  <div class="ib" id="back" title="Back">‹</div><div class="ib" id="fwd" title="Forward">›</div><div class="ib" id="reload" title="Reload">↻</div>
+  <input id="url" placeholder="Search YouTube or type a URL" spellcheck="false" autocomplete="off">
+  <div id="ym" title="youmood settings ⌘,"><span class="dot"></span><span class="w">y<span>o</span>umood</span><span class="n" id="cnt"></span></div>
+</div>
+<div id="prog"></div>
+<script>
+const $=(s)=>document.querySelector(s); let ST={tabs:[],active:null}; let editing=false;
+function render(s){
+  ST=s; const box=$("#tabs"); box.innerHTML="";
+  for(const t of s.tabs){
+    const el=document.createElement("div"); el.className="tab"+(t.id===s.active?" on":""); el.title=t.url;
+    el.innerHTML=`<span class="t"></span>${t.muted?`<span class="n">${t.muted}</span>`:""}<span class="x">×</span>`;
+    el.querySelector(".t").textContent=t.title||"new tab";
+    el.addEventListener("mousedown",(e)=>{ if(e.target.classList.contains("x")) return; ym.send({type:"activate",id:t.id}); });
+    el.querySelector(".x").addEventListener("mousedown",(e)=>{ e.stopPropagation(); ym.send({type:"close",id:t.id}); });
+    el.addEventListener("auxclick",(e)=>{ if(e.button===1) ym.send({type:"close",id:t.id}); });
+    box.appendChild(el);
+  }
+  const a=s.tabs.find((t)=>t.id===s.active)||{};
+  if(!editing) $("#url").value=a.url==="youmood://home"?"":(a.url||"");
+  $("#back").toggleAttribute("disabled",!a.canBack); $("#fwd").toggleAttribute("disabled",!a.canFwd);
+  $("#reload").textContent=a.loading?"×":"↻";
+  $("#ym").classList.toggle("live",!!a.yt); $("#cnt").textContent=a.yt&&a.muted?a.muted:"";
+  const p=$("#prog"); if(a.loading){p.style.opacity=1;p.style.width="70%";} else {p.style.width="100%";setTimeout(()=>{p.style.opacity=0;p.style.width=0;},250);}
+}
+ym.onTabs(render); ym.state().then(render);
+$("#add").onclick=()=>ym.send({type:"new"});
+$("#back").onclick=()=>ym.send({type:"back"}); $("#fwd").onclick=()=>ym.send({type:"forward"}); $("#reload").onclick=()=>ym.send({type:"reload"});
+$("#ym").onclick=()=>ym.send({type:"popup"});
+const u=$("#url");
+u.addEventListener("focus",()=>{editing=true;setTimeout(()=>u.select(),0)});
+u.addEventListener("blur",()=>{editing=false;render(ST)});
+u.addEventListener("keydown",(e)=>{ if(e.key==="Enter"){ ym.send({type:"go",url:u.value}); u.blur(); } if(e.key==="Escape"){ u.blur(); } });
+ym.onFocusUrl(()=>u.focus());
+</script>
+</body></html>

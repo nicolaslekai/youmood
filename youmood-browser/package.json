@@ -1,0 +1,17 @@
+{
+  "name": "youmood-browser",
+  "productName": "youmood",
+  "version": "0.2.0",
+  "description": "youmood, a browser that matches your intentions.",
+  "main": "main.js",
+  "private": true,
+  "scripts": {
+    "sync": "cp ../youmood-extension/rules.js ../youmood-extension/content.js ../youmood-extension/content.css ../youmood-extension/popup.html ../youmood-extension/popup.css ../youmood-extension/popup.js ext/ && cp ../youmood-extension/icons/icon128.png ext/icon.png && sed -i '' 's|runs <span class=\"mono\">youmood-bridge</span> on 127.0.0.1:7331 using your Claude subscription|asks the <span class=\"mono\">claude</span> CLI on this mac, on your Claude subscription|' ext/popup.html && node build-inject.mjs",
+    "start": "npm run sync && electron .",
+    "build": "npm run sync && electron-builder --mac --config electron-builder.yml"
+  },
+  "devDependencies": {
+    "electron": "^38.0.0",
+    "electron-builder": "^26.0.0"
+  }
+}

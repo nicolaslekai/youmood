@@ -53,13 +53,13 @@ footer{padding:30px 0 50px;color:var(--ink-dim);font-size:12.5px;border-top:1px 
 </style></head>
 <body>
 <div class="wrap">
-<nav><div class="brand">y<span>o</span>umood</div><span class="pill"><i></i>Chrome · YouTube · v0.1</span></nav>
+<nav><div class="brand">y<span>o</span>umood</div><span class="pill"><i></i>macOS · YouTube · v0.2</span></nav>
 
 <div class="hero">
   <div>
     <h1>Your feed.<br>Your <em>mood</em>.</h1>
-    <p class="lead">One switch and YouTube stops showing you Trump. Or politics. Or violence, news, sport, ads, big brands. Whatever you don't want today.</p>
-    <div class="row"><a class="btn primary" href="#install">Install in Chrome</a><a class="btn" href="#how">How it works</a></div>
+    <p class="lead">A browser that matches your intentions. One switch and YouTube stops showing you Trump. Or politics. Or violence, news, sport, ads, big brands. Whatever you don't want today.</p>
+    <div class="row"><a class="btn primary" href="https://github.com/nicolaslekai/youmood/releases/latest/download/youmood-0.2.0-arm64.dmg">Download for Mac</a><a class="btn" href="#how">How it works</a></div>
   </div>
   <div class="demo">
     <div class="hd"><b>y<span>o</span>umood</b><span class="sw on"></span></div>
@@ -79,11 +79,11 @@ footer{padding:30px 0 50px;color:var(--ink-dim);font-size:12.5px;border-top:1px 
 
 <section id="how">
   <h2>What it looks like on YouTube</h2>
-  <p class="sub">Muted videos get blurred with a small label, or disappear entirely. Your call. One click brings any of them back.</p>
+  <p class="sub">Muted videos get blurred with a small label, or disappear entirely. The label never names what it hid. One click brings any of them back.</p>
   <div class="feed">
-    <div class="vid m"><span class="tag">muted <b>Trump</b> · show</span><div class="th"></div><div class="t">Trump holds rally in Ohio<small>Fox News · 2.1M views</small></div></div>
+    <div class="vid m"><span class="tag">muted · <b>show</b></span><div class="th"></div><div class="t">Trump holds rally in Ohio<small>Fox News · 2.1M views</small></div></div>
     <div class="vid"><div class="th"></div><div class="t">I built a cabin alone in the woods<small>Outdoor Boys · 4.3M views</small></div></div>
-    <div class="vid m"><span class="tag">muted <b>Sport</b> · show</span><div class="th"></div><div class="t">Bayern vs Dortmund Highlights<small>Bundesliga · 890K views</small></div></div>
+    <div class="vid m"><span class="tag">muted · <b>show</b></span><div class="th"></div><div class="t">Bayern vs Dortmund Highlights<small>Bundesliga · 890K views</small></div></div>
   </div>
 </section>
 
@@ -92,24 +92,20 @@ footer{padding:30px 0 50px;color:var(--ink-dim);font-size:12.5px;border-top:1px 
   <p class="sub">The first layer works instantly and offline. The other two make it smarter.</p>
   <div class="grid">
     <div class="card"><b>1 · Rules</b><p>Word lists per category, English and German. Trump, MAGA, Bundesliga, breaking, sponsored. Zero latency, nothing leaves your browser.</p></div>
-    <div class="card"><b>2 · Claude on your Mac</b><p>Unclear titles go to a tiny local bridge that asks the Claude CLI on your own subscription. Cached for a week per video.</p></div>
-    <div class="card"><b>3 · API key</b><p>Or paste an Anthropic key and let Claude label directly from the extension. Pick the model yourself.</p></div>
+    <div class="card"><b>2 · Claude on your Mac</b><p>Unclear titles are handed to the Claude CLI on your own subscription, straight from the browser. Cached for a week per video.</p></div>
+    <div class="card"><b>3 · API key</b><p>Or paste an Anthropic key and let Claude label directly from the browser. Pick the model yourself.</p></div>
   </div>
 </section>
 
 <section id="install">
   <h2>Install</h2>
-  <p class="sub">Not in the Chrome Web Store yet. Load it as an unpacked extension. Source on <a href="https://github.com/nicolaslekai/youmood">GitHub</a>.</p>
+  <p class="sub">youmood is its own browser for macOS (Apple silicon). Source on <a href="https://github.com/nicolaslekai/youmood">GitHub</a>.</p>
   <ol>
-    <li><a href="youmood-extension.zip">Download youmood-extension.zip</a> and unzip it.</li>
-    <li>Open <code>chrome://extensions</code> and switch on <b>Developer mode</b>.</li>
-    <li>Click <b>Load unpacked</b> and choose the unzipped folder <code>youmood-extension</code>.</li>
-    <li>Open YouTube, click the youmood icon, switch on what you want gone.</li>
+    <li><a href="https://github.com/nicolaslekai/youmood/releases/latest/download/youmood-0.2.0-arm64.dmg">Download youmood-0.2.0-arm64.dmg</a> and drag youmood into Applications.</li>
+    <li>First start: right-click youmood → <b>Open</b> (the build is not notarized yet).</li>
+    <li>Type a search or a URL, click the youmood button, switch on what you want gone.</li>
   </ol>
-  <p class="sub">Optional AI layer with your Claude subscription:</p>
-<pre>cd youmood-bridge
-node bridge.mjs        # listens on 127.0.0.1:7331
-# then in the popup: AI check → "claude on this mac" → test</pre>
+  <p class="sub">Still on Chrome? The original extension is here too: <a href="youmood-extension.zip">youmood-extension.zip</a>, load unpacked via <code>chrome://extensions</code>.</p>
 </section>
 
 <footer>youmood · rules run locally, AI only when you switch it on · in-video ads are out of scope, that's an ad-blocker's job</footer>

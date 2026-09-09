@@ -1,0 +1,34 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>new tab</title>
+<style>
+:root{--bg:#1a1d22;--panel:#21252b;--card:#262b33;--field:#2c323b;--line:#333a44;--ink:#e8eaed;--ink2:#aeb5bf;--ink-dim:#7c8490;--mood:#e58fb0;--mood-dim:rgba(229,143,176,.45);--mood-ghost:rgba(229,143,176,.10);
+--disp:"Space Grotesk",Inter,-apple-system,sans-serif;--ui:Inter,-apple-system,system-ui,sans-serif}
+*{box-sizing:border-box}html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font:14px/1.5 var(--ui);display:grid;place-items:center}
+main{width:min(560px,90vw);text-align:center}
+.wm{font:700 44px var(--disp);letter-spacing:-1px;margin:0}.wm span{color:var(--mood)}
+.tag{color:var(--ink2);font-size:16px;margin:6px 0 30px}
+input{width:100%;height:46px;background:var(--field);border:1px solid var(--line);border-radius:10px;color:var(--ink);padding:0 16px;font:15px var(--ui);outline:none;transition:border-color .12s,box-shadow .12s}
+input:focus{border-color:var(--mood-dim);box-shadow:0 0 0 3px rgba(229,143,176,.25)}input::placeholder{color:var(--ink-dim)}
+.links{display:flex;gap:8px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+.links a{color:var(--ink2);text-decoration:none;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:12.5px;transition:color .12s,border-color .12s}
+.links a:hover{color:var(--mood);border-color:var(--mood-dim)}
+.hint{color:var(--ink-dim);font-size:11px;letter-spacing:.8px;text-transform:uppercase;margin-top:34px}
+</style></head>
+<body><main>
+  <h1 class="wm">y<span>o</span>umood</h1>
+  <p class="tag">a browser that matches your intentions</p>
+  <input id="q" placeholder="Search YouTube or type a URL" autofocus spellcheck="false">
+  <div class="links">
+    <a href="#" data-u="https://www.youtube.com/">YouTube</a>
+    <a href="#" data-u="https://www.youtube.com/feed/subscriptions">Subscriptions</a>
+    <a href="#" data-u="https://www.youtube.com/feed/history">History</a>
+  </div>
+  <p class="hint">⌘, settings · ⌘T new tab · ⌘L address</p>
+</main>
+<script>
+const go=(u)=>{ location.href = /^[a-z]+:\/\//i.test(u) ? u : (/^[\w.-]+\.[a-z]{2,}(\/|$)/i.test(u) ? "https://"+u : "https://www.youtube.com/results?search_query="+encodeURIComponent(u)); };
+document.querySelector("#q").addEventListener("keydown",(e)=>{ if(e.key==="Enter"&&e.target.value.trim()) go(e.target.value.trim()); });
+document.querySelectorAll("[data-u]").forEach((a)=>a.addEventListener("click",(e)=>{e.preventDefault();go(a.dataset.u)}));
+</script>
+</body></html>

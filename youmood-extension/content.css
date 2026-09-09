@@ -9,6 +9,5 @@
   font: 500 11px/1 Inter, -apple-system, system-ui, sans-serif; letter-spacing: 0;
   pointer-events: auto;
 }
-.ym-tag b { color: #e58fb0; font-weight: 600; }
-.ym-tag .ym-show { color: #7c8490; cursor: pointer; margin-left: 2px; transition: color .12s; }
+.ym-tag .ym-show { color: #e58fb0; cursor: pointer; margin-left: 2px; transition: color .12s; }
 .ym-tag .ym-show:hover { color: #e8eaed; }

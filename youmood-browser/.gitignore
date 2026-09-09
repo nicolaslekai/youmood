@@ -1,0 +1,4 @@
+ext/
+inject/preload.js
+dist/
+node_modules/
