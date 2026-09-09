@@ -1,0 +1,14 @@
+.ym-muted { position: relative !important; }
+.ym-muted > *:not(.ym-tag) { filter: blur(14px) saturate(0) !important; pointer-events: none !important; user-select: none !important; }
+.ym-hidden { display: none !important; }
+.ym-tag {
+  position: absolute; top: 8px; left: 8px; z-index: 5;
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 9px; border-radius: 999px;
+  background: #21252b; border: 1px solid #333a44; color: #aeb5bf;
+  font: 500 11px/1 Inter, -apple-system, system-ui, sans-serif; letter-spacing: 0;
+  pointer-events: auto;
+}
+.ym-tag b { color: #e58fb0; font-weight: 600; }
+.ym-tag .ym-show { color: #7c8490; cursor: pointer; margin-left: 2px; transition: color .12s; }
+.ym-tag .ym-show:hover { color: #e8eaed; }

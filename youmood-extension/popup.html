@@ -1,0 +1,38 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>youmood</title><link rel="stylesheet" href="popup.css"></head>
+<body>
+<header>
+  <div class="brand">y<span>o</span>umood</div>
+  <label class="master"><input type="checkbox" id="enabled"><span class="sw"></span></label>
+</header>
+<div class="stat"><span class="n" id="count">0</span><span class="l">muted on this tab</span></div>
+
+<div class="lbl">Mute</div>
+<div class="list" id="cats"></div>
+
+<div class="lbl">Also mute words</div>
+<input class="field" id="custom" placeholder="e.g. mukbang, crypto, elon">
+
+<div class="lbl">Muted videos are</div>
+<div class="seg" id="mode">
+  <button data-v="blur">blurred</button><button data-v="hide">hidden</button>
+</div>
+
+<div class="lbl">AI check for unclear titles</div>
+<div class="seg" id="ai">
+  <button data-v="off">off</button><button data-v="bridge">this mac</button><button data-v="api">api key</button>
+</div>
+<div id="aiBox">
+  <div id="apiRow" hidden>
+    <input class="field mono" id="apiKey" placeholder="sk-ant-…" type="password">
+    <select class="field mono" id="model">
+      <option value="claude-opus-5">claude-opus-5</option>
+      <option value="claude-sonnet-5">claude-sonnet-5</option>
+      <option value="claude-haiku-4-5">claude-haiku-4-5</option>
+    </select>
+  </div>
+  <div id="bridgeRow" hidden class="hint">runs <span class="mono">youmood-bridge</span> on 127.0.0.1:7331 using your Claude subscription</div>
+  <div class="row"><button class="btn ghost small" id="test">test</button><span id="aiStatus" class="status"></span></div>
+</div>
+<script src="rules.js"></script><script src="popup.js"></script>
+</body></html>

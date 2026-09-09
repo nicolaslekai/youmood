@@ -1,0 +1,6 @@
+.DS_Store
+node_modules/
+*.log
+renders/*_jobs.json
+renders/*_out.json
+renders/icon_jobs.txt
